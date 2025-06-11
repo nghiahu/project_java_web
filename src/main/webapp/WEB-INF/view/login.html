@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'poppins': ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter">
+<main class="flex flex-row justify-center items-center bg-slate-900 w-full h-screen">
+    <!-- Left Section -->
+    <section class="relative w-1/2 h-full flex items-center justify-center bg-slate-900">
+        <!-- Image -->
+        <img class="w-3/5 h-auto rounded-2xl"
+             src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749638823/register_wedo1w.png"
+             alt="Two women smiling" />
+    </section>
+
+    <!-- Right Section -->
+    <section class="w-1/2 flex justify-center items-center">
+        <!-- Vertical Text -->
+        <div class="absolute right-[12%] bottom-[75%] origin-right w-96 flex flex-col items-center justify-center text-start">
+            <div>
+                <h1 class="text-white text-4xl font-bold font-poppins">Join us today 👋</h1>
+                <p class="text-slate-400 text-l font-normal mt-3 font-poppins">
+                    Clarity gives you the blocks and components you need to create a truly professional website.
+                </p>
+            </div>
+        </div>
+
+        <form class="bg-white rounded-2xl px-10 py-6 w-96 top-[50px] flex flex-col gap-5 relative shadow-xl"
+              aria-label="Registration form" th:object="${login}" action="login-save" method="post">
+
+            <h2 class="text-4xl font-bold text-center mb-5 text-gray-900">Sign in</h2>
+            <div th:if="${error}" th:text="${error}" class="text-red-500 text-sm absolute top-20"></div>
+            <!-- Email Input -->
+            <div>
+                <label class="bg-gray-300 rounded-2xl h-12 flex items-center px-5">
+                    <input type="email"
+                           placeholder="email"
+                           class="w-full border-none bg-transparent text-xl font-semibold text-gray-500 outline-none placeholder-gray-500"
+                           aria-label="Email" th:field="*{email}"/>
+                </label>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-sm absolute"></div>
+            </div>
+            <!-- Password Input -->
+           <div>
+               <label class="bg-gray-300 rounded-2xl h-12 flex items-center px-5">
+                   <input type="password"
+                          placeholder="password"
+                          class="w-full border-none bg-transparent text-xl font-semibold text-gray-500 outline-none placeholder-gray-500"
+                          aria-label="Password" th:field="*{password}"/>
+               </label>
+               <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-sm absolute"></div>
+               </div>
+            <!-- Footer Text -->
+            <div class="text-center mt-2">
+                <p class="text-base font-medium text-black">
+                    Don't have an account,
+                    <a href="/register" class="text-red-500 no-underline font-bold ml-1 hover:text-red-600 transition-colors">
+                        register
+                    </a>
+                </p>
+            </div>
+
+            <!-- Register Button -->
+            <button type="submit"
+                    class="bg-indigo-500 text-white text-xl font-bold border-none rounded-2xl h-12 cursor-pointer mt-2 hover:bg-indigo-600 transition-colors duration-300">
+                Login
+            </button>
+        </form>
+    </section>
+</main>
+</body>
+</html>
