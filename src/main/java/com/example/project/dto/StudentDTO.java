@@ -11,7 +11,7 @@ public class StudentDTO {
     private int id;
     @NotBlank(message = "Tên đăng nhập không được đê trống")
     private String username;
-//    @NotBlank(message = "Họ tên không được để trống")
+    @NotBlank(message = "Họ tên không được để trống")
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Ngày sinh không được để trống")

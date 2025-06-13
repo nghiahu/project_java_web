@@ -23,7 +23,7 @@ public class Student {
     private String phone;
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String password;
-    @Column(columnDefinition = "date default(now())")
+    @Column(insertable = false, updatable = false, columnDefinition = "date default(now())")
     private LocalDate create_at;
     @Column(nullable = false, columnDefinition = "bit")
     private boolean role;

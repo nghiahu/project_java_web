@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<body th:fragment="manager-course">
+<div class="max-w-[1350px] mx-auto pt-36 pl-[17%] pr-2">
+    <div class="flex flex-row justify-between h-10">
+        <h1 class="text-2xl font-semibold mb-6">Course Manager</h1>
+        <a th:href="@{course(isShowFrom=true)}">
+            <button class="bg-blue-500 text-white font-semibold px-8 py-2 rounded-md">
+                Add new course
+            </button>
+        </a>
+    </div>
+    <div class="flex items-center justify-end mb-4 h-10 mt-4">
+        <div class="flex gap-3">
+            <select class="border border-gray-300 rounded-md py-2 pr-10 text-gray-700 ">
+                <option>Filter By Status</option>
+            </select>
+            <select class="border border-gray-300 rounded-md py-2 pr-10 text-gray-700">
+                <option>Sort By ID</option>
+            </select>
+            <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                <input type="text" placeholder="search course by name" class="px-3 py-2 outline-none w-64" />
+            </div>
+            <button class="bg-blue-500 text-white px-4 rounded-md">Search</button>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left border border-gray-200 bg-white">
+            <thead class="bg-gray-100 text-gray-500">
+            <tr>
+                <th class="px-4 py-3">Course ID</th>
+                <th class="px-4 py-3">Course Name</th>
+                <th class="px-4 py-3">Duration (Hour)</th>
+                <th class="px-4 py-3">Instructor</th>
+                <th class="px-4 py-3">Image</th>
+                <th class="px-4 py-3">Created Date</th>
+                <th class="px-4 py-3">Action</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-700">
+            <!-- Sample rows -->
+            <tr class="border-t border-gray-200" th:each="course,loop :${courses}">
+                <td class="px-4 py-3" th:text="${course.id}"></td>
+                <td class="px-4 py-3" th:text="${course.name}"></td>
+                <td class="px-4 py-3" th:text="${course.duration}"></td>
+                <td class="px-4 py-3" th:text="${course.instructor}"></td>
+                <td class="px-4 py-3">
+                    <img th:src="${course.image}" alt="Course" class="w-12 h-12 object-cover rounded" />
+                </td>
+                <td class="px-4 py-3" th:text="${course.create_at}"></td>
+                <td class="px-4 py-3 space-x-2">
+                    <a th:href="@{deleteCourse(id=${course.id})}" onclick="confirm('Bạn có chắc muốn xóa khóa học này không')">
+                        <button class="w-5 h-5 text-red-500">🗑️</button>
+                    </a>
+                    <a th:href="@{course(isShowFromEdit=true, id=${course.id})}">
+                    <button class="w-5 h-5 text-yellow-500">✏️</button>
+                    </a>
+                </td>
+            </tr>
+            <!-- Repeat similar rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center mt-6 space-x-1">
+        <a th:if="${currentPage > 1}"
+           th:href="@{course(page=${currentPage - 1})}"
+           class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+            &larr;
+        </a>
+        <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+            <a th:href="@{course(page=${i})}"
+               th:class="'px-3 py-1 border rounded ' + (${i} == ${currentPage} ? 'bg-blue-500 text-white' : '')">
+                <span th:text="${i}">1</span>
+            </a>
+        </th:block>
+        <a th:if="${currentPage < totalPage}"
+           th:href="@{course(page=${currentPage + 1})}"
+           class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+            &rarr;
+        </a>
+    </div>
+
+    <div th:if="${model}">
+        <div th:replace="addCourse :: Modal_addCourse"></div>
+    </div>
+    <div th:if="${isShowFromEdit}">
+        <div th:replace="updateCourse :: Modal_updateCourse"></div>
+    </div>
+</div>
+</body>
+</html>

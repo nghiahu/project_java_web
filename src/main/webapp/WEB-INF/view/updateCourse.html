@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="Modal_updateCourse">
+<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+  <div class="w-[564px] h-[553px] bg-white rounded-lg relative">
+    <div class="w-[480px] h-[516px] bg-white overflow-hidden relative top-[37px] left-[42px]">
+
+      <div class="w-full h-6 absolute top-0 left-0 flex justify-between items-center">
+        <p class="text-black text-[20px] font-semibold leading-6">Add new course</p>
+        <button class="w-6 h-6 bg-[url('./close.svg')] bg-cover"></button>
+      </div>
+      <form class="w-full h-[462px] absolute top-[40px] left-0 space-y-4" th:object="${courseDTO}" action="editCourse-save" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <div class="flex flex-col space-y-1">
+          <label class="text-[14px] font-semibold text-gray-700">Course Name</label>
+          <input type="text" class="w-full h-8 border rounded px-3" th:field="*{name}"/>
+          <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-600 text-[16px] font-light"></p>
+        </div>
+
+        <div class="flex flex-col space-y-1">
+          <label class="text-[14px] font-semibold text-gray-700">Duration</label>
+          <input type="text" class="w-full h-8 border rounded px-3" th:field="*{duration}"/>
+          <p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" class="text-red-600 text-[16px] font-light"></p>
+        </div>
+
+        <div class="flex flex-col space-y-1">
+          <label class="text-[14px] font-semibold text-gray-700">Instructor</label>
+          <input type="text" class="w-full h-8 border rounded px-3" th:field="*{instructor}"/>
+          <p th:if="${#fields.hasErrors('instructor')}" th:errors="*{instructor}" class="text-red-600 text-[16px] font-light"></p>
+        </div>
+
+        <div class="flex flex-col space-y-1">
+          <label class="text-[14px] font-semibold text-gray-700">Image</label>
+          <div class="w-full h-8 border border-black rounded-lg px-3 flex items-center space-x-2">
+            <input type="file" class="h-6 " th:field="*{file}">
+          </div>
+        </div>
+
+        <div class="flex justify-center space-x-4 pt-4">
+          <a href="course">
+            <button class="h-[46px] px-5 border border-gray-300 rounded-md text-[17px] font-medium text-gray-900">Cancel</button>
+          </a>
+          <button type="submit" class="h-[44px] px-5 bg-blue-500 text-white rounded-lg text-[17px] font-medium">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

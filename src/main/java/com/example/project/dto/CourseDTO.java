@@ -1,27 +1,25 @@
-package com.example.project.entity;
+package com.example.project.dto;
 
-import javax.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
-@Entity
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CourseDTO {
     private int id;
-    @Column(nullable = false, columnDefinition = "varchar(100)")
+   @NotBlank(message = "Tên khóa học không được để trống")
     private String name;
-    @Column(nullable = false)
+    @NotNull(message = "Thời lượng không được để trống")
+    @Min( value = 0, message = "Thời lượng phải lớn hơn 0")
     private int duration;
-    @Column(nullable = false, columnDefinition = "varchar(100)")
+    @NotBlank(message = "Giảng viên phụ trách không được để trống")
     private String instructor;
-    @Column(insertable = false, updatable = false, columnDefinition = "date default(now())")
     private LocalDate create_at;
-    @Column(columnDefinition = "text default null")
     private String image;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollments;
+    private transient MultipartFile file;
 
     public int getId() {
         return id;
@@ -71,11 +69,11 @@ public class Course {
         this.image = image;
     }
 
-    public List<Enrollment> getEnrollments() {
-        return enrollments;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setEnrollments(List<Enrollment> enrollments) {
-        this.enrollments = enrollments;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

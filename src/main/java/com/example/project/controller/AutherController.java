@@ -74,14 +74,11 @@ public class AutherController {
             return "login";
         }
         if(student.isRole()){
-            session.setAttribute("user", student);
+            session.setAttribute("userLogin", student);
             return "redirect:/dashboard";
         }
+        session.setAttribute("userLogin", student);
         return "redirect:/";
     }
 
-    @GetMapping("dashboard")
-    public String dashboard(Model model) {
-        return "dashboard";
-    }
 }
