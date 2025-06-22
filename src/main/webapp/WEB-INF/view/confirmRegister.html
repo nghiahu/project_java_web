@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="confirm-register">
+    <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 blur-xs">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-[500px] mx-auto h-[270px]">
+        <div class="flex flex-col gap-5 p-6 w-full">
+            <div class="flex flex-col gap-5 w-full">
+                <img class="w-[50px] h-[50px] -ml-1 -mt-1" alt="Featured icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaRfOfbPQbdEOogM1a1YBCKzQYMtPcmhHqDx_BV1t-OvY_-9u3ujO2c-K3rW1jUUtwjSw&usqp=CAU"/>
+                <div class="flex flex-col gap-2 w-full">
+                    <div class="text-gray-900 text-[18px] font-medium leading-[28px]">
+                        Xác nhận
+                    </div>
+                    <div class="text-gray-500 text-sm leading-6">
+                        Bạn có chắc chắn muốn đăng ký khóa học
+                        <span th:text="${course.name}" class="text-orange-300 font-medium px-1"></span>
+                        không?
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="h-px w-[94%] bg-gray-200 -mx-1 ml-4" />
+        <form class="relative h-[80px]" action="registerEnrollment" method="post">
+            <input name="courseId" th:value="${course.id}" type="hidden">
+            <div class="absolute top-[20px] right-[20px] flex gap-3">
+                <a th:href="@{listCourse(keyword=${keyword})}">
+                    <div class="text-gray-600 px-4 py-2 rounded hover:bg-gray-100 text-sm">Hủy</div>
+                </a>
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">OK</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

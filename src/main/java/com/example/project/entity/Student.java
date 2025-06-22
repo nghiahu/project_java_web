@@ -9,8 +9,6 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(nullable = false, unique = true, columnDefinition = "varchar(50)")
-    private String username;
     @Column(nullable = true, columnDefinition = "varchar(100)")
     private String name;
     @Column(nullable = false, columnDefinition = "date")
@@ -23,6 +21,8 @@ public class Student {
     private String phone;
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String password;
+    @Column(columnDefinition = "bit default(1)")
+    private boolean status;
     @Column(insertable = false, updatable = false, columnDefinition = "date default(now())")
     private LocalDate create_at;
     @Column(nullable = false, columnDefinition = "bit")
@@ -37,14 +37,6 @@ public class Student {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -117,5 +109,13 @@ public class Student {
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

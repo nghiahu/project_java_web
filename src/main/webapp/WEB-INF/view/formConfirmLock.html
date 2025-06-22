@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="lock-confirm">
+<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-[500px] mx-auto h-[250px]">
+        <div class="flex flex-col gap-5 p-6 w-full">
+            <div class="flex flex-col gap-5 w-full">
+                <img class="w-[40px] h-[40px] -ml-1 -mt-1" alt="Featured icon" src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749805366/pngtree-icon-of-a-rounded-red-exclamation-sign-in-photo-png-image_13892481_quhizt.png"/>
+                <div class="flex flex-col gap-2 w-full">
+                    <div class="text-gray-900 text-[18px] font-medium leading-[28px]">
+                        Xác nhận
+                    </div>
+                    <div th:if="${studentLock.status}" class="text-gray-500 text-sm leading-6">
+                        Bạn có chắc chắn muốn khóa tài khoản của học viên
+                        <span th:text="${studentLock.name}" class="text-orange-300 font-medium px-1"></span>
+                        không?
+                    </div>
+                    <div th:if="${!studentLock.status}" class="text-gray-500 text-sm leading-6">
+                        Bạn có chắc chắn muốn mở khóa tài khoản của học viên
+                        <span th:text="${studentLock.name}" class="text-orange-300 font-medium px-1"></span>
+                        không?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-px w-[94%] bg-gray-200 -mx-1 ml-4" />
+        <div class="relative h-[80px]">
+            <div class="absolute top-[20px] right-[20px] flex gap-3">
+                <a th:href="@{student(keyword=${keyword}, sortBy=${sortBy}, page=${currentPage})}">
+                    <button class="text-gray-600 px-4 py-2 rounded hover:bg-gray-100 text-sm">Hủy</button>
+                </a>
+                <a th:href="@{student(isLock=true, id=${id}, keyword=${keyword}, sortBy=${sortBy}, page=${currentPage})}">
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">OK</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

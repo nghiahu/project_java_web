@@ -9,8 +9,6 @@ import java.time.LocalDate;
 
 public class StudentDTO {
     private int id;
-    @NotBlank(message = "Tên đăng nhập không được đê trống")
-    private String username;
     @NotBlank(message = "Họ tên không được để trống")
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -25,6 +23,7 @@ public class StudentDTO {
     private String phone;
     @NotBlank(message = "Mật khẩu không được để trống")
     private String password;
+    private boolean status;
     private LocalDate create_at;
     private boolean role;
 
@@ -34,14 +33,6 @@ public class StudentDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -106,5 +97,13 @@ public class StudentDTO {
 
     public void setRole(boolean role) {
         this.role = role;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

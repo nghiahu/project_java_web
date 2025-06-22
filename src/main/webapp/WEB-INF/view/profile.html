@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="profile-info">
+    <div class="pt-24 bg-gray-50 pb-[20px]">
+        <div class="relative h-[64px] w-[100%]">
+            <p class="absolute top-0 left-0 text-[#f7c245] w-[100%] text-center font-medium text-[40px] font-sans leading-[64px] tracking-[-0.25px] whitespace-nowrap m-0 font-['Roboto']">
+                My Profile
+            </p>
+        </div>
+        <div class="relative h-[50px] w-[100%] pt-4 flex flex-row gap-3 pl-[71%]">
+            <a th:href="@{myProfile(isChangePassword=true)}">
+            <button type="submit" class="bg-blue-500 text-white px-3 rounded-md py-1">Change Password</button>
+            </a>
+        </div>
+        <div class="w-[600px] h-[530px] bg-white rounded-lg overflow-hidden shadow-xs p-6 font-inter text-[14px] ml-[30%] mt-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-[20px] font-bold">Change Information</h2>
+            </div>
+
+            <form class="space-y-3" th:object="${student}" action="changeProfile" method="post">
+                <div class="h-1">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{password}">
+                    <input type="hidden" th:field="*{create_at}">
+                    <input type="hidden" th:field="*{role}">
+                    <input type="hidden" th:field="*{status}">
+                </div>
+                <div class="h-[70px]">
+                    <label class="block font-semibold text-gray-500 mb-1">
+                        Name <span class="text-red-500">*</span>
+                    </label>
+                    <input th:field="*{name}" type="text" class="w-full h-[44px] px-4 py-3 border border-gray-300 rounded-lg shadow-xs bg-transparent focus:outline-none text-black"/>
+                    <div class="text-red-500 text-xs ml-2" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <div class="h-[70px]">
+                    <label class="block font-semibold text-gray-500 mb-1">
+                        Phone <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" th:field="*{phone}" class="w-full h-[44px] px-4 py-3 border border-gray-300 rounded-lg shadow-xs bg-transparent focus:outline-none text-black"/>
+                    <div class="text-red-500 text-xs ml-2" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    <div th:if="${errorPhone}" th:text="${errorPhone}" class="text-red-500 text-xs ml-2"></div>
+                </div>
+
+                <div class="h-[70px]">
+                    <label class="block font-semibold text-gray-500 mb-1">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input type="email" th:field="*{email}"
+                            class="w-full h-[44px] px-4 py-3 border border-gray-300 rounded-lg shadow-xs bg-transparent focus:outline-none text-black"
+                    />
+                    <div class="text-red-500 text-xs ml-2" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    <div th:if="${errorEmail}" th:text="${errorEmail}" class="text-red-500 text-xs ml-2"></div>
+                </div>
+
+                <div class="h-[70px]">
+                    <label class="block font-semibold text-gray-500 mb-1">
+                        Gender <span class="text-red-500">*</span>
+                    </label>
+                    <select th:field="*{sex}" class="w-full h-[44px] px-4 py-3 border border-gray-300 rounded-lg shadow-xs bg-transparent focus:outline-none text-black">
+                        <option th:value="${true}">Male</option>
+                        <option th:value="${false}">Female</option>
+                    </select>
+                </div>
+
+                <div class="relative h-[70px]">
+                    <label class="block font-semibold text-gray-500 mb-1">
+                        Date Of Birth <span class="text-red-500">*</span>
+                    </label>
+                    <input th:field="*{dob}" type="date" class="w-full h-[44px] px-4 py-3 border border-gray-300 rounded-lg shadow-xs bg-transparent focus:outline-none text-black"/>
+                    <div class="text-red-500 text-xs ml-2" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></div>
+                </div>
+
+                <div class="flex justify-center ">
+                    <button type="submit" class="px-5 py-2 border-gray-300 bg-red-500 text-white rounded-md font-medium text-[17px] hover:opacity-90">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+<div th:if="${isChangePassword}">
+    <div th:replace="formChangePassword :: change-pass"></div>
+</div>
+</body>
+</html>

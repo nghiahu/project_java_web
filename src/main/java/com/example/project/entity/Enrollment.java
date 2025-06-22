@@ -16,9 +16,10 @@ public class Enrollment {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
-    @Column(columnDefinition = "datetime default(current_timestamp)")
+    @Column(insertable = false, updatable = false, columnDefinition = "date default(now())")
     private LocalDateTime registered_at;
-    @Column(columnDefinition = "enum('WAITING','DENIED','CANCEL','CONFIRMED') default('WAITING')")
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('CANCEL','CONFIRMED','DENIED','WAITING')")
     private StatusEnrollment status;
 
     public int getId() {

@@ -1,5 +1,7 @@
 package com.example.project.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +11,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(nullable = false, columnDefinition = "varchar(100)")
+    @Column(nullable = false,unique = true, columnDefinition = "varchar(100)")
     private String name;
     @Column(nullable = false)
     private int duration;
@@ -19,6 +21,8 @@ public class Course {
     private LocalDate create_at;
     @Column(columnDefinition = "text default null")
     private String image;
+    @Column(columnDefinition = "bit default(1)")
+    private boolean status;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments;
@@ -77,5 +81,13 @@ public class Course {
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

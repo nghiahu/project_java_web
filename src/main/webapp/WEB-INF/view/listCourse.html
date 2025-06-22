@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="list-course">
+<div class="pt-24 bg-gray-50 pb-[76px]">
+    <div class="relative h-[64px] w-[100%]">
+        <p class="absolute top-0 left-0 text-[#f7c245] w-[100%] text-center font-medium text-[40px] font-sans leading-[64px] tracking-[-0.25px] whitespace-nowrap m-0 font-['Roboto']">
+            List Course
+        </p>
+    </div>
+
+    <form action="listCourse" method="get" class="relative h-[50px] w-[100%] pt-4 flex flex-row gap-3 pl-[60%]">
+        <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+            <input name="keyword" th:value="${keyword}" type="text" placeholder="search course by name" class="px-3 py-2 outline-none w-64" />
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 rounded-md py-2">Search</button>
+    </form>
+
+    <div class="w-[95%] mt-10 h-[360px] ml-8 flex flex-row gap-8">
+        <div th:each="course, loop : ${courses}" class="w-[18%] shadow p-2 bg-white flex flex-col">
+
+            <div class="w-full h-[160px]">
+                <img class="object-cover w-full h-full" th:src="${course.image}" alt="Course image"/>
+            </div>
+
+            <div class="mt-2">
+                <p class="text-base font-semibold text-red-600" th:text="${course.name}"></p>
+                <p class="text-green-600 text-sm">Let's explore</p>
+            </div>
+
+            <div class="mt-2 text-sm text-gray-700">
+                <div class="flex flex-row gap-1">
+                    Duration: <span th:text="${course.duration}"></span> hour
+                </div>
+                <div class="flex flex-row gap-1">
+                    Instructor: <span th:text="${course.instructor}"></span>
+                </div>
+            </div>
+            <a th:href="@{listCourse(isFormConfirm=true, id=${course.id}, keyword=${keyword})}"th:if="${!course.status and !isRegis}" class="mt-auto bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
+                Registry
+                <span class="text-xl">&rarr;</span>
+            </a>
+            <button th:if="${course.status and !isRegis}" class="mt-auto bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
+                Registered
+                <span class="text-xl"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div th:if="${totalPage > 0}" class="flex justify-center items-center mt-14 space-x-1">
+        <a th:if="${currentPage > 1}"
+           th:href="@{listCourse(page=${currentPage - 1}, keyword=${keyword})}"
+           class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+            &larr;
+        </a>
+        <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+            <a th:href="@{listCourse(page=${i}, keyword=${keyword})}"
+               th:class="'px-3 py-1 border rounded ' + (${i} == ${currentPage} ? 'bg-blue-500 text-white' : '')">
+                <span th:text="${i}">1</span>
+            </a>
+        </th:block>
+        <a th:if="${currentPage < totalPage}"
+           th:href="@{listCourse(page=${currentPage + 1}, keyword=${keyword})}"
+           class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+            &rarr;
+        </a>
+    </div>
+</div>
+<div th:if="${isFormConfirm}">
+    <div th:replace="confirmRegister :: confirm-register"></div>
+</div>
+</body>
+</html>

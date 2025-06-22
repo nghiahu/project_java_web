@@ -12,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -42,20 +44,16 @@ public class AutherController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        boolean valiUserName = authServiceImp.validateUsername(student.getUsername());
         boolean valiEmail = authServiceImp.validateEmail(student.getEmail(), 0);
         boolean valiPhone = authServiceImp.validatePhoneNumber(student.getPhone(), 0);
 
-        if(!valiUserName){
-            model.addAttribute("errorName", "Tên đăng nhập đã tồn tại");
-        }
         if(!valiEmail){
             model.addAttribute("errorEmail", "Email đã tồn tại");
         }
         if(!valiPhone){
             model.addAttribute("errorPhone", "Số điện thoại đã tồn tại");
         }
-        if(!valiUserName || !valiEmail || !valiPhone) {
+        if(!valiEmail || !valiPhone) {
             return "register";
         }
         Student student1 = modelMapper.map(student, Student.class);
@@ -63,8 +61,9 @@ public class AutherController {
         return "redirect:/login";
     }
 
-    @PostMapping("login-save")
-    public String loginSave(@Valid @ModelAttribute("login")UserLoginDTO login, BindingResult bindingResult, Model model, HttpSession session) {
+    @PostMapping("login")
+    public String loginSave(@Valid @ModelAttribute("login")UserLoginDTO login, BindingResult bindingResult,
+                            Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "login";
         }
@@ -75,10 +74,24 @@ public class AutherController {
         }
         if(student.isRole()){
             session.setAttribute("userLogin", student);
-            return "redirect:/dashboard";
+            return "redirect:/admin/dashboard";
         }
         session.setAttribute("userLogin", student);
-        return "redirect:/";
+        if(!student.isStatus()){
+            model.addAttribute("errorLock", "Your account has been locked");
+            return "login";
+        }
+        return "redirect:/client/listCourse";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute("userLogin");
+        }
+        return "redirect:/login";
+    }
+
 
 }

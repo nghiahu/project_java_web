@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+</head>
+<body class="bg-white" th:fragment="header-client">
+<div class="fixed top-0 left-0 w-full h-20 shadow-md bg-white z-50 flex items-center px-6 justify-between">
+    <img src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749715976/image_ksmeyp.png" alt="logo" class="h-10 object-contain">
+
+    <div class="flex justify-between flex-grow max-w-[450px] mx-12 px-4 py-2 gap-2 text-base font-semibold ml-24">
+        <a th:href="@{listCourse}" th:classappend="${#httpServletRequest.requestURI.endsWith('/listCourse') ? ' text-blue-500 font-semibold' : ' text-gray-700 '}">
+            <div>List Course</div>
+        </a>
+        <a th:href="@{historyEnrollment}" th:classappend="${#httpServletRequest.requestURI.endsWith('/historyEnrollment') ? ' text-blue-500 font-semibold' : ' text-gray-700 '}">
+            <div>Enrollment</div>
+        </a>
+        <a th:href="@{myProfile}" th:classappend="${#httpServletRequest.requestURI.endsWith('/myProfile') ? ' text-blue-500 font-semibold' : ' text-gray-700 '}">
+            <div>Profile</div>
+        </a>
+    </div>
+
+    <div class="flex items-center gap-6">
+        <div class="relative">
+            <img src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749714815/Icon_Outline_mail_wbjpqt.svg" class="w-8 h-8">
+            <div class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">2</div>
+        </div>
+        <img src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749714814/bell_wizqwt.svg" class="w-8 h-8">
+
+        <img src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749714816/ellipse-6_lyndrd.png" class="w-10 h-10 rounded-full object-cover">
+        <a th:href="@{/logout}">
+            <div class="flex items-center gap-2 cursor-pointer hover:text-indigo-600">
+                <img src="https://res.cloudinary.com/dimxrq8bs/image/upload/v1749715139/logout_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24_ov0hfe.svg" class="w-6 h-6">
+                <span class="text-sm font-medium text-gray-700">Logout</span>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

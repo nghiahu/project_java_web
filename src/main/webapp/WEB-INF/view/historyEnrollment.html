@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="list-enrollment">
+    <div class="pt-24 bg-gray-50 pb-[50px]">
+    <div class="relative h-[64px] w-[100%]">
+        <p class="absolute top-0 left-0 text-[#f7c245] w-[100%] text-center font-medium text-[40px] font-sans leading-[64px] tracking-[-0.25px] whitespace-nowrap m-0 font-['Roboto']">
+            History Enrollment
+        </p>
+    </div>
+
+        <form action="historyEnrollment" method="get" class="relative h-[50px] w-[100%] pt-4 flex flex-row gap-3 pl-[60%]">
+            <select onchange="this.form.submit()" name="sort" class="border border-gray-300 rounded-md py-1 pr-10 text-gray-700">
+                <option value="" th:selected="${sort == null}">Sort By Status</option>
+                <option value="asc" th:selected="${sort == 'asc'}">Status ascending</option>
+                <option value="desc" th:selected="${sort == 'desc'}">Status decreasing</option>
+            </select>
+
+            <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                <input name="keyword" th:value="${keyword}" type="text" placeholder="search by course name"
+                       class="px-3 py-2 outline-none w-64" />
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 rounded-md py-2">Search</button>
+        </form>
+
+    <div class="w-[95%] mt-10 ml-8 flex flex-row gap-8">
+        <table class="min-w-full text-left bg-white">
+            <thead class="bg-gray-50 text-gray-400">
+            <tr>
+                <th class="px-4 py-3">Course ID</th>
+                <th class="px-4 py-3">Course Name</th>
+                <th class="px-4 py-3">Duration (Hour)</th>
+                <th class="px-4 py-3">Instructor</th>
+                <th class="px-4 py-3">Image</th>
+                <th class="px-4 py-3">Created Date</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Action</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-700">
+            <!-- Sample rows -->
+            <tr class="border-t border-gray-200" th:each="course,loop :${courseEnrollments}">
+                <td class="px-4 py-3" th:text="${course.id}"></td>
+                <td class="px-4 py-3" th:text="${course.name}"></td>
+                <td class="px-4 py-3" th:text="${course.duration}"></td>
+                <td class="px-4 py-3" th:text="${course.instructor}"></td>
+                <td class="px-4 py-3">
+                    <img th:src="${course.image}" alt="Course" class="w-12 h-12 object-cover rounded" />
+                </td>
+                <td class="px-4 py-3" th:text="${course.create_at}"></td>
+                <td class="px-4 py-3 font-semibold"
+                    th:classappend="${
+                                course.status.toString() == 'WAITING' ? 'text-yellow-500' :
+                                (course.status.toString() == 'CONFIRMED' ? 'text-green-600' :
+                                (course.status.toString() == 'DENIED' ? 'text-red-500' :
+                                (course.status.toString() == 'CANCEL' ? 'text-orange-500' : '')))
+                            }"
+                    th:text="${course.status}">
+                </td>
+                <td class="px-4 py-3 space-x-2">
+                    <a th:if="${course.status.toString() == 'WAITING'}"
+                       th:href="@{historyEnrollment(page=${currentPage}, keyword=${keyword}, sort=${sort}, isFormCancel=true, id=${course.enrollment_id})}">
+                        <button  class="px-4 py-2 rounded-lg bg-orange-100 text-orange-500 border border-orange-400 font-semibold">
+                            CANCEL
+                        </button>
+                    </a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+        <div th:if="${totalPage > 0}" class="flex justify-center items-center mt-6 space-x-1">
+            <a th:if="${currentPage > 1}"
+               th:href="@{historyEnrollment(page=${currentPage - 1}, keyword=${keyword}, sort=${sort})}"
+               class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+                &larr;
+            </a>
+            <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                <a th:href="@{historyEnrollment(page=${i}, keyword=${keyword}, sort=${sort})}"
+                   th:class="'px-3 py-1 border rounded ' + (${i} == ${currentPage} ? 'bg-blue-500 text-white' : '')">
+                    <span th:text="${i}">1</span>
+                </a>
+            </th:block>
+            <a th:if="${currentPage < totalPage}"
+               th:href="@{historyEnrollment(page=${currentPage + 1}, keyword=${keyword}, sort=${sort})}"
+               class="px-2 py-1 border rounded text-gray-600 hover:bg-gray-100">
+                &rarr;
+            </a>
+        </div>
+</div>
+<div th:if="${isFormConfirm}">
+    <div th:replace="formConfirmCancel :: confirm-cancel"></div>
+</div>
+</body>
+</html>

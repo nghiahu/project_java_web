@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div th:insert="headerClient :: header-client"></div>
+<div th:if="${content.equals('listCourse')}">
+    <div th:replace="listCourse :: list-course"></div>
+</div>
+
+<div th:if="${content.equals('listEnrollment')}">
+    <div th:replace="historyEnrollment :: list-enrollment"></div>
+</div>
+
+<div th:if="${content.equals('profile')}">
+    <div th:replace="profile :: profile-info"></div>
+</div>
+</body>
+</html>
