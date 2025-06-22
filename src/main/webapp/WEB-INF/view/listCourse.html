@@ -40,11 +40,11 @@
                     Instructor: <span th:text="${course.instructor}"></span>
                 </div>
             </div>
-            <a th:href="@{listCourse(isFormConfirm=true, id=${course.id}, keyword=${keyword})}"th:if="${!course.status and !isRegis}" class="mt-auto bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
+            <a th:href="@{listCourse(isFormConfirm=true, id=${course.id}, keyword=${keyword})}" th:if="${!course.status and isRegis}" class="mt-auto bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
                 Registry
                 <span class="text-xl">&rarr;</span>
             </a>
-            <button th:if="${course.status and !isRegis}" class="mt-auto bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
+            <button th:if="${course.status and isRegis}" class="mt-auto bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2">
                 Registered
                 <span class="text-xl"></span>
             </button>

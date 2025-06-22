@@ -55,10 +55,12 @@ public class ClientController {
                              @RequestParam(required = false) Integer id,
                              @RequestParam(defaultValue = "") String keyword) {
         Student student = (Student) session.getAttribute("userLogin");
-        if(student.isRole()){
+        if (student.isRole()) {
             model.addAttribute("isRegis", false);
+        } else {
+            model.addAttribute("isRegis", true);
         }
-        model.addAttribute("isRegis", true);
+
         int totalCourse;
         if (!keyword.isEmpty()) {
             totalCourse = courseServiceImp.countSearchCourseClient(keyword);
